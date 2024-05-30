@@ -77,3 +77,7 @@ function login() {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
     }
 }
+    } else {
+        alert('Niepoprawna nazwa użytkownika lub hasło.');
+    }
+}
