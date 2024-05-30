@@ -1,5 +1,4 @@
 let books = [];
-let books = [];
 
 function addBook() {
     const bookTitle = document.getElementById('bookTitle').value;
