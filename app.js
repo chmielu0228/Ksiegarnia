@@ -1,4 +1,5 @@
 let books = [];
+let books = [];
 
 function addBook() {
     const bookTitle = document.getElementById('bookTitle').value;
@@ -77,7 +78,7 @@ function login() {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
     }
 }
-    } else {
-        alert('Niepoprawna nazwa użytkownika lub hasło.');
-    }
+
+function logout() {
+    window.location.href = 'index.html';
 }
