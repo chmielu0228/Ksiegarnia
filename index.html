@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Tracker App - Logowanie</title>
+    <title>Book Tracker App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="login">
-        <h1>Logowanie</h1>
-        <input type="text" id="username" placeholder="Nazwa użytkownika">
-        <input type="password" id="password" placeholder="Hasło">
-        <button onclick="login()">Zaloguj</button>
+    <div id="app">
+        <h1>Book Tracker</h1>
+        <div id="loginSection">
+            <h2>Zaloguj się</h2>
+            <div>
+                <label for="username">Nazwa użytkownika:</label>
+                <input type="text" id="username">
+            </div>
+            <div>
+                <label for="password">Hasło:</label>
+                <input type="password" id="password">
+            </div>
+            <button onclick="login()">Zaloguj</button>
+        </div>
+        <div id="librarySection" style="display: none;">
+            <h2>Biblioteka</h2>
+            <!-- Tabela książek zostanie wyświetlona tutaj -->
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
