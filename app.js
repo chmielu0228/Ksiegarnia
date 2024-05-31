@@ -30,8 +30,7 @@ function login() {
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
         currentUser = user.username;
-        localStorage.setItem('currentUser', currentUser); // Dodana linia
-        loadBooks();
+        localStorage.setItem('currentUser', currentUser);
         window.location.href = 'library.html';
     } else {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
