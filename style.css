@@ -76,3 +76,6 @@ th {
     justify-content: flex-end;
     gap: 10px;
 }
+#registerSection {
+    margin-top: 20px;
+}
