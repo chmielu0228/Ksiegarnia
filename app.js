@@ -78,7 +78,7 @@ function updateBook() {
         if (author) book.author = author;
         if (genre) book.genre = genre;
         if (totalPages) book.totalPages = totalPages;
-        if (pagesRead >= 0 && pagesRead <= totalPages && totalPages>0 || pagesRead >= 0 && totalPages=0) {
+        if (pagesRead >= 0 && pagesRead <= totalPages || pagesRead >= 0 && totalPages=0) {
             book.pagesRead = pagesRead;
         } else {
             alert('Ilość przeczytanych stron nie może być większa niż ilość stron książki.');
