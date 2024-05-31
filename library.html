@@ -58,5 +58,19 @@
         </table>
     </div>
     <script src="app.js"></script>
+    <script>
+        // Sprawdź, czy użytkownik jest zalogowany i wczytaj jego książki
+        const currentUser = localStorage.getItem('currentUser');
+        if (!currentUser) {
+            window.location.href = 'index.html';
+        } else {
+            loadBooks();
+        }
+    </script>
+</body>
+</html>
+
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
