@@ -1,12 +1,10 @@
 let books = [];
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = localStorage.getItem('currentUser');
-
 // Funkcja rejestracji
 function register() {
     const username = document.getElementById('registerUsername').value;
     const password = document.getElementById('registerPassword').value;
-
     if (username && password) {
         const existingUser = users.find(user => user.username === username);
         if (existingUser) {
@@ -21,12 +19,10 @@ function register() {
         alert('Proszę wprowadzić nazwę użytkownika i hasło.');
     }
 }
-
 // Funkcja logowania
 function login() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
         currentUser = user.username;
@@ -36,19 +32,16 @@ function login() {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
     }
 }
-
 // Pokaż formularz rejestracji
 function showRegister() {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('registerSection').style.display = 'block';
 }
-
 // Pokaż formularz logowania
 function showLogin() {
     document.getElementById('loginSection').style.display = 'block';
     document.getElementById('registerSection').style.display = 'none';
 }
-
 // Dodaj książkę
 function addBook() {
     const bookTitle = document.getElementById('bookTitle').value;
@@ -64,7 +57,6 @@ function addBook() {
         }
     }
 }
-
 // Zaktualizuj książkę
 function updateBook() {
     const targetTitle = document.getElementById('targetTitle').value;
@@ -72,16 +64,19 @@ function updateBook() {
     const genre = document.getElementById('genre').value;
     const totalPages = parseInt(document.getElementById('totalPages').value);
     const pagesRead = parseInt(document.getElementById('pagesRead').value);
-
     const book = books.find(b => b.title === targetTitle);
     if (book) {
         if (author) book.author = author;
         if (genre) book.genre = genre;
         if (totalPages) book.totalPages = totalPages;
-        if (pagesRead >= 0 && pagesRead <= totalPages || pagesRead >= 0 && totalPages=0) {
+        if (pagesRead >= 0 && pagesRead <= totalPages && totalPages>0) {
+        if (pagesRead >= 0 && pagesRead <= totalPages && totalPages>0 || pagesRead >= 0 && totalPages=0) {
             book.pagesRead = pagesRead;
         } else {
             alert('Ilość przeczytanych stron nie może być większa niż ilość stron książki.');
+        }
+        if (pagesRead >= 0 && totalPages=0) {
+            book.pagesRead = pagesRead;
         }
         document.getElementById('targetTitle').value = '';
         document.getElementById('author').value = '';
@@ -94,7 +89,6 @@ function updateBook() {
         alert('Ten tytuł nie znajduje się w tabeli.');
     }
 }
-
 // Usuń książkę
 function deleteBook() {
     const targetTitle = document.getElementById('targetTitle').value;
@@ -103,7 +97,6 @@ function deleteBook() {
     updateTable();
     saveBooks();
 }
-
 // Zaktualizuj tabelę
 function updateTable() {
     const tbody = document.querySelector('#bookTable tbody');
@@ -122,14 +115,12 @@ function updateTable() {
         tbody.appendChild(row);
     });
 }
-
 // Zapisz książki do Local Storage
 function saveBooks() {
     if (currentUser) {
         localStorage.setItem(currentUser + '_books', JSON.stringify(books));
     }
 }
-
 // Wczytaj książki z Local Storage
 function loadBooks() {
     if (currentUser) {
@@ -137,7 +128,6 @@ function loadBooks() {
         updateTable();
     }
 }
-
 // Funkcja wylogowania
 function logout() {
     localStorage.removeItem('currentUser');
