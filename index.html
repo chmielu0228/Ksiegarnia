@@ -12,14 +12,28 @@
         <div id="loginSection">
             <h2>Zaloguj się</h2>
             <div>
-                <label for="username">Nazwa użytkownika:</label>
-                <input type="text" id="username">
+                <label for="loginUsername">Nazwa użytkownika:</label>
+                <input type="text" id="loginUsername">
             </div>
             <div>
-                <label for="password">Hasło:</label>
-                <input type="password" id="password">
+                <label for="loginPassword">Hasło:</label>
+                <input type="password" id="loginPassword">
             </div>
             <button onclick="login()">Zaloguj</button>
+            <button onclick="showRegister()">Zarejestruj się</button>
+        </div>
+        <div id="registerSection" style="display:none;">
+            <h2>Zarejestruj się</h2>
+            <div>
+                <label for="registerUsername">Nazwa użytkownika:</label>
+                <input type="text" id="registerUsername">
+            </div>
+            <div>
+                <label for="registerPassword">Hasło:</label>
+                <input type="password" id="registerPassword">
+            </div>
+            <button onclick="register()">Zarejestruj</button>
+            <button onclick="showLogin()">Wróć do logowania</button>
         </div>
     </div>
     <script src="app.js"></script>
