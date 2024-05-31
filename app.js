@@ -1,5 +1,6 @@
 let books = [];
 let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = null;
 
 // Funkcja rejestracji
 function register() {
@@ -28,6 +29,9 @@ function login() {
 
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
+        currentUser = user.username;
+        localStorage.setItem('currentUser', currentUser); // Dodana linia
+        loadBooks();
         window.location.href = 'library.html';
     } else {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
@@ -57,6 +61,7 @@ function addBook() {
             books.push({ title: bookTitle, author: '', genre: '', totalPages: 0, pagesRead: 0 });
             document.getElementById('bookTitle').value = '';
             updateTable();
+            saveBooks();
         }
     }
 }
@@ -85,6 +90,7 @@ function updateBook() {
         document.getElementById('totalPages').value = '';
         document.getElementById('pagesRead').value = '';
         updateTable();
+        saveBooks();
     } else {
         alert('Ten tytuł nie znajduje się w tabeli.');
     }
@@ -96,6 +102,7 @@ function deleteBook() {
     books = books.filter(b => b.title !== targetTitle);
     document.getElementById('targetTitle').value = '';
     updateTable();
+    saveBooks();
 }
 
 // Zaktualizuj tabelę
@@ -115,6 +122,27 @@ function updateTable() {
         `;
         tbody.appendChild(row);
     });
+}
+
+// Zapisz książki do Local Storage
+function saveBooks() {
+    if (currentUser) {
+        localStorage.setItem(currentUser + '_books', JSON.stringify(books));
+    }
+}
+
+// Wczytaj książki z Local Storage
+function loadBooks() {
+    if (currentUser) {
+        books = JSON.parse(localStorage.getItem(currentUser + '_books')) || [];
+        updateTable();
+    }
+}
+
+// Funkcja wylogowania
+function logout() {
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
 }
 
 // Wyloguj się
