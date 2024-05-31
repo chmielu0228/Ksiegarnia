@@ -1,6 +1,6 @@
 let books = [];
 let users = JSON.parse(localStorage.getItem('users')) || [];
-let currentUser = null;
+let currentUser = localStorage.getItem('currentUser');
 
 // Funkcja rejestracji
 function register() {
@@ -29,17 +29,12 @@ function login() {
 
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
+        currentUser = user.username;
+        localStorage.setItem('currentUser', currentUser);
         window.location.href = 'library.html';
     } else {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
     }
-   // if (user) {
-   //     currentUser = user.username;
-   //     localStorage.setItem('currentUser', currentUser);
-   //     window.location.href = 'library.html';
-  //  } else {
-  //      alert('Niepoprawna nazwa użytkownika lub hasło.');
-   // }
 }
 
 // Pokaż formularz rejestracji
@@ -146,10 +141,5 @@ function loadBooks() {
 // Funkcja wylogowania
 function logout() {
     localStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
-}
-
-// Wyloguj się
-function logout() {
     window.location.href = 'index.html';
 }
