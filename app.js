@@ -1,6 +1,12 @@
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentUser = null; // Będzie przechowywać aktualnie zalogowanego użytkownika
 
+// Dane administratora (prosty przykład, w praktyce nie przechowujemy takich danych w kodzie)
+const adminCredentials = {
+    username: 'admin',
+    password: 'admin123'
+};
+
 // Funkcja rejestracji
 function register() {
     const username = document.getElementById('registerUsername').value;
@@ -36,16 +42,90 @@ function login() {
     }
 }
 
+// Funkcja logowania administratora
+function adminLogin() {
+    const username = document.getElementById('adminUsername').value;
+    const password = document.getElementById('adminPassword').value;
+
+    if (username === adminCredentials.username && password === adminCredentials.password) {
+        showAdminPanel();
+    } else {
+        alert('Niepoprawna nazwa użytkownika lub hasło.');
+    }
+}
+
 // Pokaż formularz rejestracji
 function showRegister() {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('registerSection').style.display = 'block';
+    document.getElementById('adminSection').style.display = 'none';
 }
 
 // Pokaż formularz logowania
 function showLogin() {
     document.getElementById('loginSection').style.display = 'block';
     document.getElementById('registerSection').style.display = 'none';
+    document.getElementById('adminSection').style.display = 'none';
+}
+
+// Pokaż formularz logowania administratora
+function showAdmin() {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('registerSection').style.display = 'none';
+    document.getElementById('adminSection').style.display = 'block';
+}
+
+// Pokaż panel administratora
+function showAdminPanel() {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('registerSection').style.display = 'none';
+    document.getElementById('adminSection').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    updateAdminUserList();
+}
+
+// Wyloguj się
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
+}
+
+// Usuń użytkownika
+function deleteUser(username) {
+    users = users.filter(user => user.username !== username);
+    localStorage.setItem('users', JSON.stringify(users));
+    updateAdminUserList();
+}
+
+// Zaktualizuj listę użytkowników w panelu administratora
+function updateAdminUserList() {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = '';
+    users.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user.username;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Usuń';
+        deleteButton.onclick = () => deleteUser(user.username);
+        li.appendChild(deleteButton);
+        userList.appendChild(li);
+    });
+}
+
+// Inicjalizacja książek po załadowaniu strony biblioteki
+window.onload = function() {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+        currentUser = storedUser;
+        const user = users.find(user => user.username === currentUser.username);
+        if (user) {
+            currentUser = user;
+            updateTable();
+        }
+    } else {
+        window.location.href = 'index.html';
+    }
 }
 
 // Dodaj książkę
@@ -117,88 +197,10 @@ function updateTable() {
         `;
         tbody.appendChild(row);
     });
-    // Zapisz zaktualizowane książki do localStorage
-    users = users.map(user => user.username === currentUser.username ? currentUser : user);
     localStorage.setItem('users', JSON.stringify(users));
 }
 
-// Wyloguj się
-function logout() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
-}
-
-// Inicjalizacja książek po załadowaniu strony biblioteki
-window.onload = function() {
-    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (storedUser) {
-        currentUser = storedUser;
-        const user = users.find(user => user.username === currentUser.username);
-        if (user) {
-            currentUser = user;
-            updateTable();
-        }
-    } else {
-        window.location.href = 'index.html';
-    }
-}
-
-// Przejdź do strony szczegółów
+// Pokaż szczegóły użytkownika
 function showDetails() {
     window.location.href = 'details.html';
 }
-
-// Powrót do strony głównej
-function goBack() {
-    window.location.href = 'library.html';
-}
-
-// Generowanie wykresu na stronie szczegółów
-function generateChart() {
-    const ctx = document.getElementById('genreChart').getContext('2d');
-    const genres = {};
-    
-    currentUser.books.forEach(book => {
-        if (book.genre) {
-            genres[book.genre] = genres[book.genre] ? genres[book.genre] + 1 : 1;
-        }
-    });
-
-    const data = {
-        labels: Object.keys(genres),
-        datasets: [{
-            data: Object.values(genres),
-            backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0',
-                '#9966FF',
-                '#FF9F40'
-            ]
-        }]
-    };
-
-    new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-}
-
-// Inicjalizacja strony szczegółów
-window.onload = function() {
-    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (storedUser) {
-        currentUser = storedUser;
-        document.getElementById('username').textContent = currentUser.username;
-        generateChart();
-    } else {
-        window.location.href = 'index.html';
-    }
-}
-
