@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Tracker App - Szczegóły Użytkownika</title>
+    <title>Szczegóły Użytkownika</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="app">
-        <button onclick="goBack()">Powrót</button>
+        <button onclick="goBack()">Wróć</button>
         <h1>Szczegóły Użytkownika</h1>
-        <h2>Nazwa użytkownika: <span id="username"></span></h2>
-        <canvas id="genreChart" width="400" height="400"></canvas>
+        <h2 id="username"></h2>
+        <canvas id="genreChart"></canvas>
     </div>
-    <script src="app.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = 'library.html';
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('genreChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        data: Object.values(data),
+                        backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+        }
+
+        window.onload = function() {
+            const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (storedUser) {
+                document.getElementById('username').textContent = `Nazwa użytkownika: ${storedUser.username}`;
+                const genreCount = {};
+                storedUser.books.forEach(book => {
+                    if (genreCount[book.genre]) {
+                        genreCount[book.genre]++;
+                    } else {
+                        genreCount[book.genre] = 1;
+                    }
+                });
+                renderChart(genreCount);
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>
