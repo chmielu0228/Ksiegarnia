@@ -93,3 +93,7 @@ canvas#genreChart {
     height: 400px; /* stała wysokość wykresu */
     margin-top: 20px; /* margines na górze */
 }
+
+button {
+    margin-top: 20px; /* margines na górze */
+}
