@@ -90,5 +90,6 @@ th {
 canvas#genreChart {
     max-width: 600px; /* maksymalna szerokość wykresu */
     width: 100%; /* szerokość wykresu */
+    height: 400px; /* stała wysokość wykresu */
     margin-top: 20px; /* margines na górze */
 }
