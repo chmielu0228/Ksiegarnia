@@ -1,5 +1,5 @@
-let books = [];
 let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = null; // Będzie przechowywać aktualnie zalogowanego użytkownika
 
 // Funkcja rejestracji
 function register() {
@@ -11,7 +11,7 @@ function register() {
         if (existingUser) {
             alert('Nazwa użytkownika jest już zajęta.');
         } else {
-            users.push({ username, password });
+            users.push({ username, password, books: [] });
             localStorage.setItem('users', JSON.stringify(users));
             alert('Rejestracja zakończona pomyślnie.');
             showLogin();
@@ -28,6 +28,8 @@ function login() {
 
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
+        currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
         window.location.href = 'library.html';
     } else {
         alert('Niepoprawna nazwa użytkownika lub hasło.');
@@ -50,11 +52,11 @@ function showLogin() {
 function addBook() {
     const bookTitle = document.getElementById('bookTitle').value;
     if (bookTitle) {
-        const existingBook = books.find(book => book.title === bookTitle);
+        const existingBook = currentUser.books.find(book => book.title === bookTitle);
         if (existingBook) {
             alert('Ta książka jest już w tabeli.');
         } else {
-            books.push({ title: bookTitle, author: '', genre: '', totalPages: 0, pagesRead: 0 });
+            currentUser.books.push({ title: bookTitle, author: '', genre: '', totalPages: 0, pagesRead: 0 });
             document.getElementById('bookTitle').value = '';
             updateTable();
         }
@@ -69,7 +71,7 @@ function updateBook() {
     const totalPages = parseInt(document.getElementById('totalPages').value);
     const pagesRead = parseInt(document.getElementById('pagesRead').value);
 
-    const book = books.find(b => b.title === targetTitle);
+    const book = currentUser.books.find(b => b.title === targetTitle);
     if (book) {
         if (author) book.author = author;
         if (genre) book.genre = genre;
@@ -93,7 +95,7 @@ function updateBook() {
 // Usuń książkę
 function deleteBook() {
     const targetTitle = document.getElementById('targetTitle').value;
-    books = books.filter(b => b.title !== targetTitle);
+    currentUser.books = currentUser.books.filter(b => b.title !== targetTitle);
     document.getElementById('targetTitle').value = '';
     updateTable();
 }
@@ -102,7 +104,7 @@ function deleteBook() {
 function updateTable() {
     const tbody = document.querySelector('#bookTable tbody');
     tbody.innerHTML = '';
-    books.forEach(book => {
+    currentUser.books.forEach(book => {
         const percentRead = book.totalPages ? ((book.pagesRead / book.totalPages) * 100).toFixed(2) + '%' : '0%';
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -115,9 +117,29 @@ function updateTable() {
         `;
         tbody.appendChild(row);
     });
+    // Zapisz zaktualizowane książki do localStorage
+    users = users.map(user => user.username === currentUser.username ? currentUser : user);
+    localStorage.setItem('users', JSON.stringify(users));
 }
 
 // Wyloguj się
 function logout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
+}
+
+// Inicjalizacja książek po załadowaniu strony biblioteki
+window.onload = function() {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+        currentUser = storedUser;
+        const user = users.find(user => user.username === currentUser.username);
+        if (user) {
+            currentUser = user;
+            updateTable();
+        }
+    } else {
+        window.location.href = 'index.html';
+    }
 }
