@@ -143,3 +143,62 @@ window.onload = function() {
         window.location.href = 'index.html';
     }
 }
+
+// Przejdź do strony szczegółów
+function showDetails() {
+    window.location.href = 'details.html';
+}
+
+// Powrót do strony głównej
+function goBack() {
+    window.location.href = 'library.html';
+}
+
+// Generowanie wykresu na stronie szczegółów
+function generateChart() {
+    const ctx = document.getElementById('genreChart').getContext('2d');
+    const genres = {};
+    
+    currentUser.books.forEach(book => {
+        if (book.genre) {
+            genres[book.genre] = genres[book.genre] ? genres[book.genre] + 1 : 1;
+        }
+    });
+
+    const data = {
+        labels: Object.keys(genres),
+        datasets: [{
+            data: Object.values(genres),
+            backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56',
+                '#4BC0C0',
+                '#9966FF',
+                '#FF9F40'
+            ]
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+// Inicjalizacja strony szczegółów
+window.onload = function() {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+        currentUser = storedUser;
+        document.getElementById('username').textContent = currentUser.username;
+        generateChart();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
