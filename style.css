@@ -79,3 +79,16 @@ th {
 #registerSection {
     margin-top: 20px;
 }
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* wyśrodkowanie wertykalne */
+    margin-top: 20px; /* margines na górze */
+}
+
+canvas#genreChart {
+    max-width: 600px; /* maksymalna szerokość wykresu */
+    width: 100%; /* szerokość wykresu */
+    margin-top: 20px; /* margines na górze */
+}
