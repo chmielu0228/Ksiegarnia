@@ -23,17 +23,25 @@
         function renderChart(data) {
             const ctx = document.getElementById('genreChart').getContext('2d');
             new Chart(ctx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: Object.keys(data),
                     datasets: [{
+                        label: 'Ilość książek',
                         data: Object.values(data),
-                        backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange']
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             });
         }
