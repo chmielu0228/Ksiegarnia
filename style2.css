@@ -13,7 +13,7 @@ body {
 #app {
     display: flex;
     flex-direction: column;
-    align-items: center; /* wyśrodkowanie wertykalne */
+    justify-content: center; /* wyśrodkowanie wertykalne */
     margin-top: 20px; /* margines na górze */
 }
 
