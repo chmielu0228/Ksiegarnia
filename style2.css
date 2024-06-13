@@ -5,25 +5,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
-    background-color: #f5f0f0;
+    height: 100vh;
+    background-color: #f0f0f0;
 }
 
-
 #app {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 80%;
+    max-width: 800px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* wyśrodkowanie wertykalne */
+    align-items: center;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+button {
     margin-top: 20px; /* margines na górze */
 }
 
 canvas#genreChart {
-    max-width: 200px; /* maksymalna szerokość wykresu */
-    width: 20%; /* szerokość wykresu */
-    height: 200px; /* stała wysokość wykresu */
-    margin-top: 20px; /* margines na górze */
-}
-
-button {
+    max-width: 600px; /* maksymalna szerokość wykresu */
+    width: 100%; /* szerokość wykresu */
+    height: 400px; /* stała wysokość wykresu */
     margin-top: 20px; /* margines na górze */
 }
