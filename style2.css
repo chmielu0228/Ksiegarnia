@@ -20,7 +20,7 @@ body {
 canvas#genreChart {
     max-width: 200px; /* maksymalna szerokość wykresu */
     width: 20%; /* szerokość wykresu */
-    height: 400px; /* stała wysokość wykresu */
+    height: 200px; /* stała wysokość wykresu */
     margin-top: 20px; /* margines na górze */
 }
 
