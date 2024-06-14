@@ -8,7 +8,32 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
 }
-
+ /* button*/
+.btn{
+    font-family: "Roboto", sens-serif;
+    font-size: 18px;
+    font-weight: bold;
+    background: #FF3359;
+    width: 160px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.1);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform;
+    
+}
+.btn:hover, .btn:focus, .btn:active{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1,1);
+}
 #app {
     background: white;
     padding: 20px;
